@@ -1,1 +1,95 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.main-container {
+  text-align: center;
+  background: #050a10;
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+}
+.camera-box {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  margin: 0 auto;
+  border: 2px solid #00bcd4;
+  overflow: hidden;
+}
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.placeholder {
+  padding-top: 180px;
+  color: #444;
+}
+.scan-line {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 5px;
+  background: #00bcd4;
+  box-shadow: 0 0 15px #00bcd4;
+  animation: scan 2s infinite;
+}
+@keyframes scan {
+  from {
+    top: 0;
+  }
+  to {
+    top: 100%;
+  }
+}
+.controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+button {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid #00bcd4;
+  color: #00bcd4;
+  cursor: pointer;
+}
+.btn-off {
+  border-color: #ff5252;
+  color: #ff5252;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.modal-card {
+  background: #08121c;
+  padding: 20px;
+  border: 1px solid #00bcd4;
+  max-width: 90%;
+}
+.result-canvas {
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #222;
+}
+.badge {
+  background: #00bcd4;
+  color: #000;
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 12px;
+}
