@@ -40,30 +40,68 @@ const GEMINI_API_KEY = 'SUA_API_KEY';
   selector: 'app-root',
   template: `
     <h1>Integrando Angular com Gemini</h1>
-    <h3>{{ prompt }}</h3>
+    <input [value]="initialQuestion" #input />
+    <button (click)="generateText(input.value)">Gerar texto</button>
     <p>{{ text() }}</p>
   `,
 })
 export class App {
-  ai = new GoogleGenAI({apiKey: GEMINI_API_KEY });
-  prompt = 'Quem é esse pokemon?';
+  private ai = new GoogleGenAI({apiKey: GEMINI_API_KEY });
+  initialQuestion = "Quem é esse pokémon?"
   text = signal('');
 
-  constructor() {
-    this.generateText();
-  }
-
-  async generateText() {   
+  async generateText(prompt: string) {   
     const result = await this.ai.models.generateContent({
       model: 'gemini-2.5-flash',
-      contents: this.prompt,
+      contents: prompt,
     });
     this.text.set(result.text || '');
   }
 }
 ```
 
-## 3. Criação do Layout principal (Scanner utilizando camera)
+## 3. Integrando Gemini com Angular (Multimodal: texto + imagem)
+
+```
+Image url: https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/025.png
+```
+
+### src/app/app.component.ts
+```typescript
+import { Component, signal } from '@angular/core';
+import { GoogleGenAI } from '@google/genai';
+
+const GEMINI_API_KEY = 'SUA_API_KEY';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <h1>Integrando Angular com Gemini</h1>
+    <input [value]="initialQuestion" #input />
+    <button (click)="generateText(input.value)">Gerar texto</button>
+    <p>{{ text() }}</p>
+  `,
+})
+export class App {
+  private ai = new GoogleGenAI({apiKey: GEMINI_API_KEY });
+  initialQuestion = "Quem é esse pokémon?"
+  text = signal('');
+
+  async generateText(prompt: string) {   
+    const base64Data = 'SUA_IMAGEM_COMO_BASE64';
+    const result = await this.ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: [
+        { text: prompt },
+        { inlineData: { data: base64Data, mimeType: 'image/jpeg' } },
+      ],
+    });
+    this.text.set(result.text || '');
+  }
+}
+```
+
+## 4. Criação do Layout principal (Scanner utilizando camera)
 
 ### src/app/gemini.service.ts
 ```typescript
